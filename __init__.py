@@ -6,26 +6,22 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 # set up objects
-dataObject = DataAccess('data.txt')
+dataObject = DataAccess('data.txt') # read the data
 model = LSTMPredictor(128,128, dataObject.vocab_size)
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
-#testChars = dataObject.getNextChar()
-#model(testChars[0])
-
-for epoch in range(3000000):
+for epoch in range(3000000000):
     model.zero_grad()
-    model.hidden = model.init_hidden() # noetig?
+    model.hidden = model.init_hidden() #
     chars = dataObject.getNextChar()
     tag_scores = model(chars[0])
     target = chars[1]
-    #target = dataObject.getOneHot(chars[1])
     loss = loss_function(tag_scores, target)
     loss.backward()
     optimizer.step()
-    if epoch % 1000 == 0:
+    if epoch % 10000 == 0: # draw a sample from time to time which remains useless
         with torch.no_grad():
             print("Epoch: ", epoch)
             oldInputs = torch.tensor([dataObject.getIx('E')])
