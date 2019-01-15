@@ -2,7 +2,6 @@ from dataAccess import DataAccess
 from Model import LSTMPredictor
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 
 # set up objects
@@ -12,16 +11,17 @@ loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
-for epoch in range(3000000000):
-    model.zero_grad()
-    model.hidden = model.init_hidden() #
-    chars = dataObject.getNextChar()
-    tag_scores = model(chars[0])
-    target = chars[1]
-    loss = loss_function(tag_scores, target)
-    loss.backward()
-    optimizer.step()
-    if epoch % 10000 == 0: # draw a sample from time to time which remains useless
+for epoch in range(100000):
+    for batch in range(dataObject.data_size):
+        model.zero_grad()
+        model.hidden = model.init_hidden() #
+        chars = dataObject.getNextChar()
+        tag_scores = model(chars[0])
+        target = chars[1]
+        loss = loss_function(tag_scores, target)
+        loss.backward()
+        optimizer.step()
+    if epoch % 10 == 0: # draw a sample from time to time which remains useless
         with torch.no_grad():
             print("Epoch: ", epoch)
             oldInputs = torch.tensor([dataObject.getIx('E')])

@@ -6,7 +6,7 @@ class DataAccess(object):
         self.data = open( data_path , 'r').read()
         self.chars = list(set(self.data))
         self.data_size, self.vocab_size = len(self.data), len(self.chars)
-        print 'data has %d characters, %d unique.' % (self.data_size, self.vocab_size)
+        print('data has %d characters, %d unique.' % (self.data_size, self.vocab_size))
         self.char_to_ix = {ch: i for i, ch in enumerate(self.chars)}
         self.ix_to_char = {i: ch for i, ch in enumerate(self.chars)}
         self.offset = 0
