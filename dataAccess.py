@@ -12,10 +12,10 @@ class DataAccess(object):
         self.offset = 0
     def getNextChar(self):
         if self.offset > (len(self.data) - 2):
-            offset = 0
+            self.offset = 0
         chars = [
             torch.tensor(self.char_to_ix[self.data[self.offset]]),
-            torch.tensor([self.char_to_ix[self.data[self.offset ]]]) # -1 + 1
+            torch.tensor([self.char_to_ix[self.data[self.offset + 1]]]) # -1 + 1
             ]
         self.offset = self.offset + 1
         return chars
