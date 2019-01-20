@@ -9,6 +9,7 @@ dataObject = DataAccess('data.txt') # read the data
 model = LSTMPredictor(128,128, dataObject.vocab_size)
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
+model_path = 'my_sp_model'
 
 
 for epoch in range(100000):
@@ -21,7 +22,7 @@ for epoch in range(100000):
         loss = loss_function(tag_scores, target)
         loss.backward()
         optimizer.step()
-    if epoch % 10 == 0: # draw a sample from time to time which remains useless
+    if epoch % 1000 == 0: # draw a sample from time to time which remains useless
         with torch.no_grad():
             print("Epoch: ", epoch)
             oldInputs = torch.tensor([dataObject.getIx('E')])
@@ -31,6 +32,7 @@ for epoch in range(100000):
                 nextChar = dataObject.getChar(scores[0].max(0)[1].item())
                 print(nextChar)
                 oldInputs = torch.tensor([dataObject.getIx(nextChar)])
+        torch.save(model.state_dict(), model_path)
 
 
 
