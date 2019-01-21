@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # set up objects
-dataObject = DataAccess('data.txt') # read the data
+dataObject = DataAccess('data_small.txt') # read the data
 model = LSTMPredictor(128,128, dataObject.vocab_size)
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
@@ -22,7 +22,7 @@ for epoch in range(100000):
         loss = loss_function(tag_scores, target)
         loss.backward()
         optimizer.step()
-    if epoch % 1000 == 0: # draw a sample from time to time which remains useless
+    if epoch % 1 == 0: # draw a sample from time to time which remains useless
         with torch.no_grad():
             print("Epoch: ", epoch)
             oldInputs = torch.tensor([dataObject.getIx('E')])
