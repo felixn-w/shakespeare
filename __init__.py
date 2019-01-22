@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # set up objects
-dataObject = DataAccess('data_small.txt') # read the data
+dataObject = DataAccess('data.txt') # read the data
 model = LSTMPredictor(128,128, dataObject.vocab_size)
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
